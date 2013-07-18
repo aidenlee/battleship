@@ -1,28 +1,48 @@
-// include the librard code:
-#include <LiquidCrystal.h> //librard for the LCD display
-#include <Arduino.h> //Arduino library
-#include <battleship.h> //Arduino library
+struct ship {
+  int x;
+  int y;
+  boolean health[3];
+};
 
-LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // initialize the librard with the numbers of the interface pins see tutorial link
+struct position {
+  int x;
+  int y;
+};
 
-void setup()
-{
-    Serial.begin(9600);
-    lcd.begin(16, 2); // set up the LCD's number of columns (16) and rows (2):
-    lcd.setCursor(0, 0);
+struct player {
+  ship ship;
+};
+
+boolean attack (player, x, y) {
+  for (int i = 0, i < 3, i ++) {
+    if (player.ship.x+i == x && player.ship.y == y) {}
+      player.ship.health[i] = false;
+      lcd.clear();
+      lcd.print("HIT");
+      if (dead(player.ship)) {
+        lcd.print("You win!");
+      };
+      return true;
+    }
+  }
+  lcd.print("MISS");
+  return false;
 }
 
+boolean dead (ship) {
+  if (ship.health = [false, false, false]) {
+    return true;
+  }
+  return false;
+}
 
-void loop() //Detect and displad if button is pressed
-{
-  position position = move_cursor();
-  Serial.println(position.x);
-  Serial.println(position.y);
-  delay(500);
+void place_ship() {
+  if (select pressed) {
+    player1.ship = (.x = x, .y = y, .health = [true,true,true]);
+  };
 }
 
 position move_cursor() {
-  lcd.clear();
   int button_pressed; //variable to store voltage value when a ked is pressed
   int c = 16;
   int d = 6;
@@ -32,8 +52,10 @@ position move_cursor() {
   position.x = 0;
   position.y = 0;
 
-  while (true) {
-    byte ship[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
+
+  byte ship[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
+
+  while true {
     button_pressed = analogRead(0); //Read analog input pin 0 (section 2.2, figure 2.3)
     if (button_pressed < 100) { //RIGHT
 
@@ -45,15 +67,14 @@ position move_cursor() {
       else if (a < 15)
       {
 
-         lcd.setCursor(a, b);
-         lcd.write(" ");
+        lcd.clear();
 
         a = a + 1;
         c = 16;
         position.x ++;
       }
 
-      delay(200);
+      delay(500);
     }
     else if (button_pressed < 200) { //UP
 
@@ -65,15 +86,14 @@ position move_cursor() {
       else if (b > 0)
       {
 
-        lcd.setCursor(a, b);
-        lcd.write(" ");
+        lcd.clear();
 
         b = b - 1;
         d = 7;
         position.y ++;
       }
 
-      delay(200);
+      delay(500);
     }
     else if (button_pressed < 400) { //DOWN
 
@@ -85,15 +105,14 @@ position move_cursor() {
       else if (b < 1)
       {
 
-        lcd.setCursor(a, b);
-        lcd.write(" ");
+        lcd.clear();
 
         b = b + 1;
         d = 0;
         position.y --;
       }
 
-      delay(200);
+      delay(500);
     }
     else if (button_pressed < 600) { //LEFT
 
@@ -105,17 +124,17 @@ position move_cursor() {
       else if (a > 0)
       {
 
-        lcd.setCursor(a, b);
-        lcd.write(" ");
+        lcd.clear();
 
         a = a - 1;
         c = 1;
         position.x --;
       }
 
-      delay(200);
+      delay(500);
     }
     else if(button_pressed < 800) { //SELECT
+
       return position;
     }
 
@@ -126,9 +145,9 @@ position move_cursor() {
     lcd.write(byte(0));
 
     lcd.setCursor(10, 0);
-    lcd.print(position.x);
+    lcd.print(x);
     lcd.print(",");
-    lcd.print(position.y);
+    lcd.print(y);
   }
 }
 
