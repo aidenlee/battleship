@@ -17,7 +17,6 @@ int y = 0;
 void setup()
 {
     Serial.begin(9600);
-    lcd.createChar(0, ship);
     lcd.begin(16, 2); // set up the LCD's number of columns (16) and rows (2):
     lcd.setCursor(0, 0);
 }
@@ -39,8 +38,7 @@ void loop() //Detect and displad if button is pressed
       else if (a < 15)
       {
 
-        lcd.setCursor(a, b);
-        lcd.write(" ");
+        lcd.clear();
 
         a = a + 1;
         c = 16;
@@ -59,8 +57,7 @@ void loop() //Detect and displad if button is pressed
       else if (b > 0)
       {
 
-        lcd.setCursor(a, b);
-        lcd.write(" ");
+        lcd.clear();
 
         b = b - 1;
         d = 7;
@@ -79,8 +76,7 @@ void loop() //Detect and displad if button is pressed
       else if (b < 1)
       {
 
-        lcd.setCursor(a, b);
-        lcd.write(" ");
+        lcd.clear();
 
         b = b + 1;
         d = 0;
@@ -99,8 +95,7 @@ void loop() //Detect and displad if button is pressed
       else if (a > 0)
       {
 
-        lcd.setCursor(a, b);
-        lcd.write(" ");
+        lcd.clear();
 
         a = a - 1;
         c = 1;
@@ -111,8 +106,7 @@ void loop() //Detect and displad if button is pressed
     }
     else if(button_pressed < 800) { //SELECT
 
-      //we're not rotating the ship
-      //Select for ship to go there for sure
+      //something to rotate ship
     }
 
     ship[d] = byte(c);
@@ -127,4 +121,3 @@ void loop() //Detect and displad if button is pressed
     lcd.print(y);
 
 }
-
