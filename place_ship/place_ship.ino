@@ -111,7 +111,8 @@ void loop() //Detect and displad if button is pressed
     }
     else if(button_pressed < 800) { //SELECT
 
-      //something to rotate ship
+      //we're not rotating the ship
+      //Select for ship to go there for sure
     }
 
     ship[d] = byte(c);
