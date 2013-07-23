@@ -37,8 +37,8 @@ void loop() //Detect and displad if button is pressed
 }
 
 void attack (player player) {
-  position posi = move_cursor();
-  fire_animation(posi);
+  position posi = move_cursor(1);
+  //fire_animation(posi);
   for (int i = 0; i < 3; i++) {
     if (player.ship.posi.x+i == posi.x && player.ship.posi.y == posi.y) {
       player.ship.health[i] = false;
@@ -63,19 +63,19 @@ boolean dead (battleship ship) {
 }
 
 void initialize_player(player player) {
-  position posi = move_cursor();
+  position posi = move_cursor(0);
   player.ship.posi = posi;
   player.ship.health[0] = true;
   player.ship.health[1] = true;
   player.ship.health[2] = true;
 }
 
-position move_cursor() {
+position move_cursor(int screen_num) {
   lcd.clear();
   int button_pressed; //variable to store voltage value when a ked is pressed
   int c = 16;
   int d = 6;
-  int a = 0;
+  int a = 0+screen_num*13;
   int b = 1;
   position position;
   position.x = 0;
