@@ -4,21 +4,58 @@
 #include <battleship.h> //Arduino library
 
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // initialize the librard with the numbers of the interface pins see tutorial link
-
+player player1;
+player player2;
 void setup()
 {
     Serial.begin(9600);
     lcd.begin(16, 2); // set up the LCD's number of columns (16) and rows (2):
     lcd.setCursor(0, 0);
+
+    lcd.print("Player 1 pick");
+    initialize_player(player1);
+    lcd.clear();
+
+    lcd.print("Player 2 pick");
+    initialize_player(player2);
 }
 
 
 void loop() //Detect and displad if button is pressed
 {
-  position position = move_cursor();
-  Serial.println(position.x);
-  Serial.println(position.y);
+
   delay(500);
+}
+
+void attack (player) {
+  for (int i = 0, i < 3, i ++) {
+    if (player.ship.x+i == x && player.ship.y == y) {
+      player.ship.health[i] = false;
+      lcd.setCursor(3, 0);
+      lcd.print("HIT");
+      if (dead(player.ship)) {
+        lcd.print("You win!");
+      };
+      return;
+    }
+  }
+  lcd.print("MISS");
+  return;
+}
+
+boolean dead (ship) {
+  if (ship.health = [false, false, false]) {
+    return true;
+  }
+  return false;
+}
+
+void initialize_player(player player) {
+  position posi = move_cursor();
+  player.ship.posi = posi;
+  player.ship.health[0] = true;
+  player.ship.health[1] = true;
+  player.ship.health[2] = true;
 }
 
 position move_cursor() {
