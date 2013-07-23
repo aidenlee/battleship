@@ -1,7 +1,7 @@
 // include the librard code:
 #include <LiquidCrystal.h> //librard for the LCD display
 #include <Arduino.h> //Arduino library
-#include <battleship.h> //Arduino library
+#include "battleship.h" //Arduino library
 
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // initialize the librard with the numbers of the interface pins see tutorial link
 player player1;
@@ -10,26 +10,37 @@ void setup()
 {
     Serial.begin(9600);
     lcd.begin(16, 2); // set up the LCD's number of columns (16) and rows (2):
-    lcd.setCursor(0, 0);
 
+    lcd.setCursor(3, 0);    
     lcd.print("Player 1 pick");
     initialize_player(player1);
     lcd.clear();
 
+    lcd.setCursor(3, 0);
     lcd.print("Player 2 pick");
     initialize_player(player2);
+    lcd.clear();
 }
 
 
 void loop() //Detect and displad if button is pressed
 {
-
+  lcd.setCursor(3, 0);
+  lcd.print("Player 1 Go");
+  attack(player2);
+  
+  lcd.setCursor(3, 0);
+  lcd.print("Player 2 Go");
+  attack(player1);
+  
   delay(500);
 }
 
-void attack (player) {
-  for (int i = 0, i < 3, i ++) {
-    if (player.ship.x+i == x && player.ship.y == y) {
+void attack (player player) {
+  position posi = move_cursor();
+  fire_animation(posi);
+  for (int i = 0; i < 3; i++) {
+    if (player.ship.posi.x+i == posi.x && player.ship.posi.y == posi.y) {
       player.ship.health[i] = false;
       lcd.setCursor(3, 0);
       lcd.print("HIT");
@@ -39,12 +50,13 @@ void attack (player) {
       return;
     }
   }
+  lcd.setCursor(3,0);
   lcd.print("MISS");
   return;
 }
 
-boolean dead (ship) {
-  if (ship.health = [false, false, false]) {
+boolean dead (battleship ship) {
+  if (ship.health[0] == false && ship.health[1] == false && ship.health[2] == false) {
     return true;
   }
   return false;
