@@ -45,18 +45,18 @@ void setup()
 
 void loop()
 {
+  draw_my_ship(player1.ship.posi);
   lcd.setCursor(3, 0);
   lcd.print("Player 1");
   lcd.setCursor(3, 1);
   lcd.print("Aim...");
-  draw_my_ship(player1.ship.posi);
   attack(player2);
 
+  draw_my_ship(player2.ship.posi);
   lcd.setCursor(3, 0);
   lcd.print("Player 2");
   lcd.setCursor(3, 1);
   lcd.print("Aim...");
-  draw_my_ship(player2.ship.posi);
   attack(player1);
 
   delay(500);
@@ -64,28 +64,35 @@ void loop()
 
 void draw_my_ship(position position) {
   pixel pixel = posi_to_pixel(position, 0);
-  lcd.setCursor(pixel.a, pixel.b);
+
   byte ship1[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
   byte ship2[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
-  switch (pixel.c) {}
+  switch (pixel.c) {
   case 16 :
-    ship1[pixel.d] = B10101;
+    ship1[pixel.d] = byte(21);
+    Serial.println("STu");
     break;
   case 4 :
-    ship1[pixel.d] = B00101;
-    ship2[pixel.d] = B10000;
+    ship1[pixel.d] = byte(5);
+    ship2[pixel.d] = byte(16);
+    Serial.println('nope');
     break;
   case 1 :
-    ship1[pixel.d] = B00001;
-    ship2[pixel.d] = B10100;
+    ship1[pixel.d] = byte(1);
+    ship2[pixel.d] = byte(20);
+    Serial.println('nope');
     break;
   default :
-    return;
+    Serial.println("Error");
   }
-  lcd.createChar(6,ship1);
-  lcd.createChar(7,ship2);
+  
+  lcd.createChar(6, ship1);
+  lcd.createChar(7, ship2);
+  lcd.begin(16, 2);
+  lcd.setCursor(pixel.a, pixel.b);
   lcd.write(byte(6));
   lcd.write(byte(7));
+  delay(1000);
 
 }
 
