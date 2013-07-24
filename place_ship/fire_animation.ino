@@ -83,6 +83,9 @@ void fire_animation(position posi) {
       if (count % 2 == 0)
       { k = count / 2; }
       
+      if (k < 1)
+      { k = 1;}
+      
       delay(100);
       lcd.setCursor(i,0);
       lcd.write(" ");
@@ -93,7 +96,7 @@ void fire_animation(position posi) {
   int l = 0;
   count = 0;
   
-  for (int i = 9; i < 14 + (posi.x / 3); i++)
+  for (int i = 10; i < 14 + (posi.x / 3); i++)
   {
     for (int j = 16; j > 0; j = j / 4)
     {
@@ -110,7 +113,7 @@ void fire_animation(position posi) {
       lcd.write(" ");
       
       count++;
-      if (count > (5 + posi.x + posi.y))
+      if (count > (2 + posi.x + posi.y))
       { k = k + 2; }
       
       if (k > 7)
@@ -119,9 +122,15 @@ void fire_animation(position posi) {
         k = 0;
       }
       
-      if (15 - (9*l) - (k/2) == posi.y)
+      Serial.print(k);
+      Serial.print(" , ");
+      Serial.print(l);
+      Serial.print(" , ");
+      Serial.println(posi.y);
+      
+      if ((15 - (9*l) - k)/2 == posi.y)
       {
-        break;
+        return;
       }
     }
   }
