@@ -176,15 +176,34 @@ position move_cursor(int screen_num, player player) {
   position posi;
   posi.x = 0;
   posi.y = 0;
+  
+  custom_char grid[6] = { { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) } };
+  
+  for (int i = 0; i < 6; i ++)
+  {
+    lcd.createChar(i, grid[i].ship);
+  }
+  
+  
+  lcd.setCursor(0,0);
+  lcd.write(byte(0));
+  lcd.write(byte(1));
+  lcd.write(byte(2));
+  lcd.setCursor(0,1);
+  lcd.write(byte(3));
+  lcd.write(byte(4));
+  lcd.write(byte(5));
+    
+  
 
   while (true) {
-    byte ship[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
+    //byte ship[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
     button_pressed = analogRead(0); //Read analog input pin 0 (section 2.2, figure 2.3)
 
     if (button_pressed < 800) { //button is pressed
-      lcd.setCursor(a, b);
-      lcd.write(" ");
-      delay(200);
+      delay(200);    
+      grid[a+(3*b)].ship[d] = byte(0);
+      lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
     }
 
     if (button_pressed < 100) { //RIGHT
@@ -251,11 +270,9 @@ position move_cursor(int screen_num, player player) {
       return posi;
     }
 
-    ship[d] = byte(c);
+    grid[a+(3*b)].ship[d] = byte(c);
 
-    lcd.createChar(0, ship);
-    lcd.setCursor(a, b);
-    lcd.write(byte(0));
+    lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
 
     //Print other stuff here....
 
