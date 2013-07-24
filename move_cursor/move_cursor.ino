@@ -171,7 +171,7 @@ position move_cursor(char_list char_list) {
       main_list.screen[pixel.a - 13][pixel.b].ship[pixel.d] += byte(pixel.c);
     }
     
-    if (button_pressed > 1000) { //No button pressed
+    if (button_pressed < 800) { //Some button pressed
       delay(200);
     }
   }
