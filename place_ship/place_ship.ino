@@ -10,35 +10,35 @@ void setup()
 {
     Serial.begin(9600);
     lcd.begin(16, 2); // set up the LCD's number of columns (16) and rows (2):
-    
-    lcd.setCursor(3, 0);    
+
+    lcd.setCursor(3, 0);
     lcd.print("< Place Ship");
-    lcd.setCursor(3, 1);    
+    lcd.setCursor(3, 1);
     lcd.print("< Player 1");
     player1 = initialize_player();
-    
+
     Serial.println("Player 1 has been initialized"); //Serial checks
     Serial.print("Position of ship is: ");
     Serial.print(player1.ship.posi.x);
     Serial.print(" , ");
     Serial.println(player1.ship.posi.y);
     Serial.println("");
-    
+
     lcd.clear();
 
-    lcd.setCursor(3, 0);    
+    lcd.setCursor(3, 0);
     lcd.print("< Place Ship");
-    lcd.setCursor(3, 1);    
+    lcd.setCursor(3, 1);
     lcd.print("< Player 2");
     player2 = initialize_player();
-    
+
     Serial.println("Player 2 has been initialized"); //Serial checks
     Serial.print("Position of ship is: ");
     Serial.print(player2.ship.posi.x);
     Serial.print(" , ");
     Serial.println(player2.ship.posi.y);
     Serial.println("");
-    
+
     lcd.clear();
 }
 
@@ -49,44 +49,73 @@ void loop()
   lcd.print("Player 1");
   lcd.setCursor(3, 1);
   lcd.print("Aim...");
+  draw_my_ship(player1.ship.posi);
   attack(player2);
-  
+
   lcd.setCursor(3, 0);
   lcd.print("Player 2");
   lcd.setCursor(3, 1);
   lcd.print("Aim...");
+  draw_my_ship(player2.ship.posi);
   attack(player1);
-  
+
   delay(500);
+}
+
+void draw_my_ship(position position) {
+  pixel pixel = posi_to_pixel(position, 0);
+  lcd.setCursor(pixel.a, pixel.b);
+  byte ship1[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
+  byte ship2[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
+  switch (pixel.c) {}
+  case 16 :
+    ship1[pixel.d] = B10101;
+    break;
+  case 4 :
+    ship1[pixel.d] = B00101;
+    ship2[pixel.d] = B10000;
+    break;
+  case 1 :
+    ship1[pixel.d] = B00001;
+    ship2[pixel.d] = B10100;
+    break;
+  default :
+    return;
+  }
+  lcd.createChar(6,ship1);
+  lcd.createChar(7,ship2);
+  lcd.write(byte(6));
+  lcd.write(byte(7));
+
 }
 
 void attack (player &player) {
   position posi = move_cursor(1, player);
-  
+
   Serial.println("Player has fired at:"); //Serial checks
   Serial.print(posi.x);
   Serial.print(" , ");
   Serial.println(posi.y);
   Serial.println("");
-    
+
   fire_animation(posi);
   for (int i = 0; i < 3; i++) {
     if (player.ship.posi.x+i == posi.x && player.ship.posi.y == posi.y) {
-      player.ship.health[i] = false;  
+      player.ship.health[i] = false;
       lcd.clear();
       lcd.setCursor(3, 0);
       lcd.print("HIT");
       Serial.print(player.ship.health[0]);
       Serial.print(player.ship.health[1]);
       Serial.print(player.ship.health[2]);
-      
-      if (dead(player.ship)) {  
+
+      if (dead(player.ship)) {
         lcd.clear();
         lcd.print("You win!");
         delay(2000);
         setup();
       }
-      
+
       int button_pressed; //variable to store voltage value when a key is pressed
       while (true) {
         button_pressed = analogRead(0); //Read analog input pin 0 (section 2.2, figure 2.3)
@@ -100,8 +129,8 @@ void attack (player &player) {
   lcd.clear();
   lcd.setCursor(3,0);
   lcd.print("MISS");
-  
-  
+
+
   int button_pressed; //variable to store voltage value when a key is pressed
   while (true) {
     button_pressed = analogRead(0); //Read analog input pin 0 (section 2.2, figure 2.3)
@@ -110,8 +139,8 @@ void attack (player &player) {
       return;
     }
   }
-  
-  
+
+
 }
 
 boolean dead (battleship ship) {
@@ -222,18 +251,18 @@ position move_cursor(int screen_num, player player) {
     lcd.write(byte(0));
 
     //Print other stuff here....
-    
+
  }
 }
- 
+
 pixel posi_to_pixel(position posi, int screen_num) {
   pixel pixel;
-  
+
   pixel.a = posi.x / 3 + screen_num * 13;
   pixel.b = 1 - posi.y / 4 ;
-  pixel.c = 16 / pow(2, (posi.x % 3) * 2);  
+  pixel.c = 16 / pow(2, (posi.x % 3) * 2);
   pixel.d = 7 - ((posi.y % 4) * 2) - pixel.b;
-  
+
   return pixel;
 }
 
