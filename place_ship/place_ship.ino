@@ -3,7 +3,7 @@
 #include <Arduino.h> //Arduino library
 #include "battleship.h" //Arduino library
 
-  LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // initialize the librard with the numbers of the interface pins see tutorial link
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // initialize the librard with the numbers of the interface pins see tutorial link
 player player1;
 player player2;
 void setup()
@@ -70,17 +70,14 @@ void draw_my_ship(position position) {
   switch (pixel.c) {
   case 16 :
     ship1[pixel.d] = byte(21);
-    Serial.println("STu");
     break;
   case 4 :
     ship1[pixel.d] = byte(5);
     ship2[pixel.d] = byte(16);
-    Serial.println('nope');
     break;
   case 1 :
     ship1[pixel.d] = byte(1);
     ship2[pixel.d] = byte(20);
-    Serial.println('nope');
     break;
   default :
     Serial.println("Error");
@@ -203,17 +200,20 @@ position move_cursor(int screen_num, player player) {
     if (button_pressed < 800) { //button is pressed
       delay(200);    
       grid[a+(3*b)].ship[d] = byte(0);
+      grid[a+(3*b)+1].ship[d] = byte(0);
       lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
+      lcd.createChar(a+(3*b)+1, grid[a+(3*b)+1].ship);
+      
     }
 
     if (button_pressed < 100) { //RIGHT
       posi.x ++;
 
-      if (c > 1)
+      if (c > 1 && a < 2)
       {
         c = c/4;
       }
-      else if (a < 2+(screen_num*13))
+      else if (a < 2)
       {
         a = a + 1;
         c = 16;
@@ -268,10 +268,7 @@ position move_cursor(int screen_num, player player) {
 
     else if(button_pressed < 800) { //SELECT
       return posi;
-    }
-
-    grid[a+(3*b)].ship[d] = byte(c);
-    
+    }    
     switch (c) {
     case 16 :
       grid[a+(3*b)].ship[d] = byte(21);
@@ -288,6 +285,7 @@ position move_cursor(int screen_num, player player) {
       Serial.println("Error");
     }
     lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
+    lcd.createChar(a+(3*b)+1, grid[a+(3*b)+1].ship);
 
     //Print other stuff here....
 
