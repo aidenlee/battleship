@@ -171,7 +171,7 @@ position move_cursor(int screen_num) {
     lcd.print(",");
     lcd.print(position.y);
     
-    if (button_pressed > 1000) { //No button pressed
+    if (button_pressed < 800) { //Some button was pressed so delay for a bit
       delay(200);
     }    
   }
