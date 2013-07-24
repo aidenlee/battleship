@@ -112,7 +112,7 @@ void fire_animation(position posi) {
     {
       byte shot[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
       lcd.createChar(5, shot);
-      lcd.write(byte(5));
+      lcd.write(" ");
       
       shot[k] = byte(j);
       
