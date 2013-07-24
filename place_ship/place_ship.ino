@@ -10,12 +10,12 @@ void setup()
 {
     Serial.begin(9600);
     lcd.begin(16, 2); // set up the LCD's number of columns (16) and rows (2):
-
+    
     lcd.setCursor(3, 0);    
     lcd.print("< Place Ship");
     lcd.setCursor(3, 1);    
     lcd.print("< Player 1");
-    initialize_player(player1);
+    player1 = initialize_player();
     
     Serial.println("Player 1 has been initialized"); //Serial checks
     Serial.print("Position of ship is: ");
@@ -30,7 +30,7 @@ void setup()
     lcd.print("< Place Ship");
     lcd.setCursor(3, 1);    
     lcd.print("< Player 2");
-    initialize_player(player2);
+    player2 = initialize_player();
     
     Serial.println("Player 2 has been initialized"); //Serial checks
     Serial.print("Position of ship is: ");
@@ -60,7 +60,7 @@ void loop()
   delay(500);
 }
 
-void attack (player player) {
+void attack (player &player) {
   position posi = move_cursor(1, player);
   
   Serial.println("Player has fired at:"); //Serial checks
@@ -76,18 +76,42 @@ void attack (player player) {
       lcd.clear();
       lcd.setCursor(3, 0);
       lcd.print("HIT");
+      Serial.print(player.ship.health[0]);
+      Serial.print(player.ship.health[1]);
+      Serial.print(player.ship.health[2]);
+      
       if (dead(player.ship)) {  
         lcd.clear();
         lcd.print("You win!");
-        delay(8000);
-      };
-      return;
+        delay(2000);
+        setup();
+      }
+      
+      int button_pressed; //variable to store voltage value when a key is pressed
+      while (true) {
+        button_pressed = analogRead(0); //Read analog input pin 0 (section 2.2, figure 2.3)
+        if (button_pressed < 800) { //button is pressed
+          delay(500);
+          return;
+        }
+      }
     }
   }
   lcd.clear();
   lcd.setCursor(3,0);
   lcd.print("MISS");
-  return;
+  
+  
+  int button_pressed; //variable to store voltage value when a key is pressed
+  while (true) {
+    button_pressed = analogRead(0); //Read analog input pin 0 (section 2.2, figure 2.3)
+    if (button_pressed < 800) { //button is pressed
+      delay(500);
+      return;
+    }
+  }
+  
+  
 }
 
 boolean dead (battleship ship) {
@@ -97,12 +121,14 @@ boolean dead (battleship ship) {
   return false;
 }
 
-void initialize_player(player player) {
-  position posi = move_cursor(0, player);
-  player.ship.posi = posi;
-  player.ship.health[0] = true;
-  player.ship.health[1] = true;
-  player.ship.health[2] = true;
+player initialize_player() {
+  player current_player;
+  position posi = move_cursor(0, current_player);
+  current_player.ship.posi = posi;
+  current_player.ship.health[0] = true;
+  current_player.ship.health[1] = true;
+  current_player.ship.health[2] = true;
+  return current_player;
 }
 
 position move_cursor(int screen_num, player player) {
@@ -120,6 +146,7 @@ position move_cursor(int screen_num, player player) {
     button_pressed = analogRead(0); //Read analog input pin 0 (section 2.2, figure 2.3)
 
     if (button_pressed < 800) { //button is pressed
+      lcd.setCursor(a, b);
       lcd.write(" ");
       delay(200);
     }
@@ -209,4 +236,5 @@ pixel posi_to_pixel(position posi, int screen_num) {
   
   return pixel;
 }
+
 

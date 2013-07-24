@@ -46,23 +46,11 @@ void fire_animation(position posi) {
     B11111,
     B11110,
   };
-
-  byte ship_drawing4[8] = {
-    B00001,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-    B00000,
-  };
   
   lcd.createChar(0, ship_drawing0); 
   lcd.createChar(1, ship_drawing1);
   lcd.createChar(2, ship_drawing2);
   lcd.createChar(3, ship_drawing3);
-  lcd.createChar(4, ship_drawing4);
   lcd.begin(16, 2);
   
   lcd.setCursor(0,0);
@@ -73,7 +61,6 @@ void fire_animation(position posi) {
   lcd.write(byte(1));
   lcd.write(byte(2));
   lcd.write(byte(3));
-  lcd.write(byte(4));
   
   byte shot[8];
   lcd.setCursor(4,0);  
@@ -85,8 +72,6 @@ void fire_animation(position posi) {
     for (int j = 16; j > 0; j = j / 4)
     {
       byte shot[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
-      lcd.createChar(5, shot);
-      lcd.write(byte(5));
       
       shot[k] = byte(j);
       
@@ -98,7 +83,9 @@ void fire_animation(position posi) {
       if (count % 2 == 0)
       { k = count / 2; }
       
-      delay(500);
+      delay(100);
+      lcd.setCursor(i,0);
+      lcd.write(" ");
     }
   }
   
@@ -106,13 +93,11 @@ void fire_animation(position posi) {
   int l = 0;
   count = 0;
   
-  for (int i = 9; i < 12 + (posi.x / 3); i++)
+  for (int i = 9; i < 14 + (posi.x / 3); i++)
   {
     for (int j = 16; j > 0; j = j / 4)
     {
       byte shot[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
-      lcd.createChar(5, shot);
-      lcd.write(" ");
       
       shot[k] = byte(j);
       
@@ -120,8 +105,12 @@ void fire_animation(position posi) {
       lcd.setCursor(i, l);
       lcd.write(byte(5));
       
+      delay(100);
+      lcd.setCursor(i,l);
+      lcd.write(" ");
+      
       count++;
-      if (count > (6 + posi.x + posi.y))
+      if (count > (5 + posi.x + posi.y))
       { k = k + 2; }
       
       if (k > 7)
@@ -134,8 +123,6 @@ void fire_animation(position posi) {
       {
         break;
       }
-      
-      delay(500);
     }
   }
   
