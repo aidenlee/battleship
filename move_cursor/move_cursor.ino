@@ -181,7 +181,7 @@ pixel position_to_pixel(position position, int screen_num) {
   pixel pixel;
   
   pixel.a = position.x / 3 + screen_num * 13;
-  pixel.c = 16 / pow(2, (position.x % 3) * 2);
+  pixel.c = 16 / pow(4, (position.x % 3));
   
   pixel.b = 1 - position.y / 4 ;
   pixel.d = 7 - ((position.y % 4) * 2) - pixel.b;
