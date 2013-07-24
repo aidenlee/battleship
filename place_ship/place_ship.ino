@@ -101,8 +101,6 @@ position move_cursor(int screen_num) {
         c = 16;
         position.x ++;
       }
-
-      delay(200);
     }
     else if (button_pressed < 200) { //UP
 
@@ -121,8 +119,6 @@ position move_cursor(int screen_num) {
         d = 7;
         position.y ++;
       }
-
-      delay(200);
     }
     else if (button_pressed < 400) { //DOWN
 
@@ -141,8 +137,6 @@ position move_cursor(int screen_num) {
         d = 0;
         position.y --;
       }
-
-      delay(200);
     }
     else if (button_pressed < 600) { //LEFT
 
@@ -161,8 +155,6 @@ position move_cursor(int screen_num) {
         c = 1;
         position.x --;
       }
-
-      delay(200);
     }
     else if(button_pressed < 800) { //SELECT
       return position;
@@ -178,6 +170,21 @@ position move_cursor(int screen_num) {
     lcd.print(position.x);
     lcd.print(",");
     lcd.print(position.y);
+    
+    if (button_pressed > 1000) { //No button pressed
+      delay(200);
+    }    
   }
+}
+
+pixel posi_to_pixel(position posi, int screen_num) {
+  pixel pixel;
+  
+  pixel.a = posi.x / 3 + screen_num * 13;
+  pixel.b = 1 - posi.y / 4 ;
+  pixel.c = 16 / pow(2, (posi.x % 3) * 2);  
+  pixel.d = 7 - ((posi.y % 4) * 2) - pixel.b;
+  
+  return pixel;
 }
 
