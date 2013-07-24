@@ -80,9 +80,9 @@ void fire_animation(position posi) {
   int k = 7;
   int count = 14;
   
-  for (i = 4; i < 10; i++;)
+  for (int i = 4; i < 10; i++)
   {
-    for (j = 16; j > 0; j = j / 4;)
+    for (int j = 16; j > 0; j = j / 4)
     {
       byte shot[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
       lcd.createChar(5, shot);
@@ -103,12 +103,12 @@ void fire_animation(position posi) {
   }
   
   k = 1;
-  l = 0;
+  int l = 0;
   count = 0;
   
-  for (i = 9; i < 12 + (posi.x / 3); i++;)
+  for (int i = 9; i < 12 + (posi.x / 3); i++)
   {
-    for (j = 16; j > 0; j = j / 4;)
+    for (int j = 16; j > 0; j = j / 4)
     {
       byte shot[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
       lcd.createChar(5, shot);
