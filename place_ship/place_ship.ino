@@ -3,7 +3,7 @@
 #include <Arduino.h> //Arduino library
 #include "battleship.h" //Arduino library
 
-LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // initialize the librard with the numbers of the interface pins see tutorial link
+  LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // initialize the librard with the numbers of the interface pins see tutorial link
 player player1;
 player player2;
 void setup()
@@ -271,7 +271,22 @@ position move_cursor(int screen_num, player player) {
     }
 
     grid[a+(3*b)].ship[d] = byte(c);
-
+    
+    switch (c) {
+    case 16 :
+      grid[a+(3*b)].ship[d] = byte(21);
+      break;
+    case 4 :
+      grid[a+(3*b)].ship[d] = byte(5);
+      grid[a+(3*b)+1].ship[d] = byte(16);
+      break;
+    case 1 :
+      grid[a+(3*b)].ship[d] = byte(1);
+      grid[a+(3*b)+1].ship[d] = byte(20);
+      break;
+    default :
+      Serial.println("Error");
+    }
     lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
 
     //Print other stuff here....
