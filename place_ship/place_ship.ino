@@ -177,3 +177,14 @@ position move_cursor(int screen_num) {
   }
 }
 
+pixel posi_to_pixel(position posi, int screen_num) {
+  pixel pixel;
+  
+  pixel.a = posi.x / 3 + screen_num * 13;
+  pixel.b = 1 - posi.y / 4 ;
+  pixel.c = 16 / pow(2, (posi.x % 3) * 2);  
+  pixel.d = 7 - ((posi.y % 4) * 2) - pixel.b;
+  
+  return pixel;
+}
+
