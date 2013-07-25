@@ -24,8 +24,11 @@ position move_cursor_attack(player player) {
   lcd.write(byte(3));
   lcd.write(byte(4));
   lcd.write(byte(5));
-    
   
+  delay(500);
+    
+  grid[a+(3*b)].ship[d] += byte(c);
+  lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
 
   while (true) {
     //byte ship[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
@@ -100,10 +103,11 @@ position move_cursor_attack(player player) {
     else if(button_pressed < 800) { //SELECT
       return posi;
     }
-
-    grid[a+(3*b)].ship[d] += byte(c);
-    lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
-
+    
+    if (button_pressed < 800) {
+      grid[a+(3*b)].ship[d] += byte(c);
+      lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
+    }
     //Print other stuff here....
 
  }

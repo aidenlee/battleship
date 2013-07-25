@@ -94,7 +94,7 @@ void draw_my_ship(position position) {
 }
 
 void attack (player &player) {
-  position posi = move_cursor(1, player);
+  position posi = move_cursor_attack(player);
 
   Serial.println("Player has fired at:"); //Serial checks
   Serial.print(posi.x);
@@ -103,11 +103,22 @@ void attack (player &player) {
   Serial.println("");
 
   fire_animation(posi);
+  
+  lcd.clear();
+  
+  byte shot[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
+  pixel shot_pixel = posi_to_pixel(posi, 1);
+  lcd.setCursor(shot_pixel.a,shot_pixel.b);
+  shot[shot_pixel.d] = byte(shot_pixel.c);
+  lcd.createChar(0, shot);
+  
+  lcd.setCursor(3,0);
+  
+  
+  
   for (int i = 0; i < 3; i++) {
     if (player.ship.posi.x+i == posi.x && player.ship.posi.y == posi.y) {
       player.ship.health[i] = false;
-      lcd.clear();
-      lcd.setCursor(3, 0);
       lcd.print("HIT");
       Serial.print(player.ship.health[0]);
       Serial.print(player.ship.health[1]);
@@ -130,8 +141,6 @@ void attack (player &player) {
       }
     }
   }
-  lcd.clear();
-  lcd.setCursor(3,0);
   lcd.print("MISS");
 
 
