@@ -107,11 +107,14 @@ void attack (player &player) {
   lcd.clear();
   
   byte shot[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
-  pixel shot_pixel = posi_to_pixel(posi, 1);
-  lcd.setCursor(shot_pixel.a,shot_pixel.b);
+  lcd.createChar(5, shot);
+  pixel shot_pixel = posi_to_pixel(posi, 1);  
+  
+  lcd.setCursor(shot_pixel.a, shot_pixel.b);
+  lcd.write(byte(5));
+  
   shot[shot_pixel.d] = byte(shot_pixel.c);
-  lcd.createChar(0, shot);
-  lcd.write(byte(0));
+  lcd.createChar(5, shot);
   delay(500);
   lcd.setCursor(6,0);
   
