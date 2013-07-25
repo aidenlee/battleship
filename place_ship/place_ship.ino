@@ -15,7 +15,7 @@ void setup()
     lcd.print("< Place Ship");
     lcd.setCursor(3, 1);
     lcd.print("< Player 1");
-    player1 = initialize_player("Juliet");
+    player1 = initialize_player("Champ");
 
     Serial.println("Player 1 has been initialized"); //Serial checks
     Serial.print("Position of ship is: ");
@@ -30,7 +30,7 @@ void setup()
     lcd.print("< Place Ship");
     lcd.setCursor(3, 1);
     lcd.print("< Player 2");
-    player2 = initialize_player("Aiden");
+    player2 = initialize_player("Orion");
 
     Serial.println("Player 2 has been initialized"); //Serial checks
     Serial.print("Position of ship is: ");
