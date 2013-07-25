@@ -45,7 +45,9 @@ void setup()
 
 void loop()
 {
+
   delay(250);
+
   draw_my_ship(player1.ship.posi);
   lcd.setCursor(3, 0);
   lcd.print(player1.name);
@@ -97,7 +99,7 @@ void attack (player &player, player &attacker) {
   double time = millis();
   Serial.print("Double Time: ");
   Serial.println(time);
-  
+
   position posi = move_cursor_attack(player, time);
 
   Serial.println("Player has fired at:"); //Serial checks
@@ -120,7 +122,7 @@ void attack (player &player, player &attacker) {
   shot[shot_pixel.d] = byte(shot_pixel.c);
   lcd.createChar(5, shot);
   lcd.setCursor(0,0);
-  
+
   lcd.print(attacker.name);
   lcd.print(" has");
 
