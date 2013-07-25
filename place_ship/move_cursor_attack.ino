@@ -25,7 +25,7 @@ position move_cursor_attack(player player) {
   position end_position = player.ship.posi;
   end_position.x = middle_position.x + 1;
   pixel end_ship = posi_to_pixel(end_position,0);
-  if (player.ship.health[1] == false) {
+  if (player.ship.health[2] == false) {
     grid[end_ship.a + end_ship.b*3].ship[end_ship.d] += byte(end_ship.c);
   }
   
