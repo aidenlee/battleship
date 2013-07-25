@@ -1,4 +1,4 @@
-position move_cursor_attack(player player) {
+position move_cursor_attack(player player, int start_time) {
   int button_pressed; //variable to store voltage value when a key is pressed
   int c = 16;
   int d = 6;
@@ -49,10 +49,21 @@ position move_cursor_attack(player player) {
   grid[a+(3*b)].ship[d] += byte(c);
   lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
 
-  while (true) {
-    //byte ship[8] = { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) };
+  Serial.print("Start Time:");
+  Serial.println(start_time);
+  int end_time = 0;
+  while (end_time < start_time + 5000) {
+    end_time = millis();
+    
+    Serial.println(end_time - start_time);
+      
+    lcd.setCursor(10, 1);
+    int time = 5- (end_time - start_time)/1000;
+    lcd.print(time);
+    
+    
     button_pressed = analogRead(0); //Read analog input pin 0 (section 2.2, figure 2.3)
-
+    
     if (button_pressed < 800) { //button is pressed
       delay(200);    
       grid[a+(3*b)].ship[d] -=  byte(c);
@@ -128,6 +139,7 @@ position move_cursor_attack(player player) {
       lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
     }
     //Print other stuff here....
-
+ 
  }
+ return posi;
 }

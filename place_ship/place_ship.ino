@@ -49,17 +49,16 @@ void loop()
   lcd.setCursor(3, 0);
   lcd.print("Player 1");
   lcd.setCursor(3, 1);
-  lcd.print("Aim...");
+  lcd.print("Aim in");
   attack(player2);
 
   draw_my_ship(player2.ship.posi);
   lcd.setCursor(3, 0);
   lcd.print("Player 2");
   lcd.setCursor(3, 1);
-  lcd.print("Aim...");
+  lcd.print("Aim in");
   attack(player1);
 
-  delay(500);
 }
 
 void draw_my_ship(position position) {
@@ -94,7 +93,9 @@ void draw_my_ship(position position) {
 }
 
 void attack (player &player) {
-  position posi = move_cursor_attack(player);
+  int time = millis();
+  Serial.println(time);
+  position posi = move_cursor_attack(player, time);
 
   Serial.println("Player has fired at:"); //Serial checks
   Serial.print(posi.x);
