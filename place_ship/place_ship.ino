@@ -111,15 +111,17 @@ void attack (player &player) {
   lcd.setCursor(shot_pixel.a,shot_pixel.b);
   shot[shot_pixel.d] = byte(shot_pixel.c);
   lcd.createChar(0, shot);
-  
-  lcd.setCursor(3,0);
+  lcd.write(byte(0));
+  delay(500);
+  lcd.setCursor(6,0);
   
   
   
   for (int i = 0; i < 3; i++) {
     if (player.ship.posi.x+i == posi.x && player.ship.posi.y == posi.y) {
       player.ship.health[i] = false;
-      lcd.print("HIT");
+     
+      lcd.print("HIT!");
       Serial.print(player.ship.health[0]);
       Serial.print(player.ship.health[1]);
       Serial.print(player.ship.health[2]);
