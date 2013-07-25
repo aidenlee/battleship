@@ -73,6 +73,7 @@ void win_animation() {
     lcd.createChar(3, picture[3].ship);
     delay(400);
   }
+  return;
 }
   //write character where the shot was made
 

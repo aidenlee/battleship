@@ -152,9 +152,10 @@ void attack (player &player, player &attacker) {
 
       if (dead(player.ship)) {
         lcd.clear();
+        win_animation();
+        lcd.clear();
         lcd.setCursor (0,0);
         lcd.print(attacker.name);
-        win_animation();
         lcd.print(" wins!!");
         delay(9000);
         lcd.clear();
