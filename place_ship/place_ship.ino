@@ -15,7 +15,7 @@ void setup()
     lcd.print("< Place Ship");
     lcd.setCursor(3, 1);
     lcd.print("< Player 1");
-    player1 = initialize_player("Aiden");
+    player1 = initialize_player("Juliet");
 
     Serial.println("Player 1 has been initialized"); //Serial checks
     Serial.print("Position of ship is: ");
@@ -30,7 +30,7 @@ void setup()
     lcd.print("< Place Ship");
     lcd.setCursor(3, 1);
     lcd.print("< Player 2");
-    player2 = initialize_player("Stuart");
+    player2 = initialize_player("Aiden");
 
     Serial.println("Player 2 has been initialized"); //Serial checks
     Serial.print("Position of ship is: ");
@@ -40,6 +40,18 @@ void setup()
     Serial.println("");
 
     lcd.clear();
+    lcd.print("Press Any Key To ");
+    lcd.setCursor(0,1);
+    lcd.print("      Begin      ");
+    int button_pressed; //variable to store voltage value when a key is pressed
+    while (true) {
+      button_pressed = analogRead(0); //Read analog input pin 0 (section 2.2, figure 2.3)
+      if (button_pressed < 800) { //button is pressed
+        delay(500);
+        return;
+      }
+    }
+    
 }
 
 
@@ -52,7 +64,7 @@ void loop()
   lcd.setCursor(3, 0);
   lcd.print(player1.name);
   lcd.setCursor(3, 1);
-  lcd.print("Aim in");
+  lcd.print("Fire in ");
   attack(player2, player1);
 
   delay(250);
@@ -60,7 +72,7 @@ void loop()
   lcd.setCursor(3, 0);
   lcd.print(player2.name);
   lcd.setCursor(3, 1);
-  lcd.print("Aim in");
+  lcd.print("Fire in ");
   attack(player1, player2);
 
 }
@@ -142,9 +154,16 @@ void attack (player &player, player &attacker) {
         lcd.clear();
         lcd.setCursor (0,0);
         lcd.print(attacker.name);
+        win_animation();
         lcd.print(" wins!!");
-        delay(2000);
-        setup();
+        delay(9000);
+        lcd.clear();
+        lcd.setCursor (0,0);
+        lcd.print(" Press reset to ");
+        lcd.setCursor (0,1);
+        lcd.print("    continue    ");
+        while (true)
+        {}
       }
 
       int button_pressed; //variable to store voltage value when a key is pressed

@@ -46,14 +46,19 @@ position move_cursor_attack(player player, double start_time) {
   
   delay(500);
     
-  grid[a+(3*b)].ship[d] += byte(c);
-  lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
+  if (   !(posi.x == player.ship.posi.x     && posi.y == player.ship.posi.y &&  player.ship.health[0] == false)
+          && !(posi.x == player.ship.posi.x + 1 && posi.y == player.ship.posi.y &&  player.ship.health[1] == false)
+          && !(posi.x == player.ship.posi.x + 2 && posi.y == player.ship.posi.y &&  player.ship.health[2] == false)  ) {
+      
+        grid[a+(3*b)].ship[d] += byte(c);
+        lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
+    }
 
   double end_time = 0;
   while (end_time < start_time + 9000) {
     end_time = millis();
       
-    lcd.setCursor(10, 1);
+    lcd.setCursor(11, 1);
     int time = 9 - (int)((end_time - start_time)/1000);
     lcd.print(time);
     
