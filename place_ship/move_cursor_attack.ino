@@ -8,7 +8,26 @@ position move_cursor_attack(player player) {
   posi.x = 0;
   posi.y = 0;
   
-  custom_char grid[6] = { { byte(0), byte(4), byte(0), byte(0), byte(8), byte(0), byte(0), byte(1) }, { byte(0), byte(0), byte(3), byte(0), byte(0), byte(0), byte(1), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) } };
+  custom_char grid[6] = { { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) }, { byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0), byte(0) } };
+  
+  pixel anchor = posi_to_pixel(player.ship.posi);
+  if (player.health[0] == false) {
+    grid[anchor.a + anchor.b*3][anchor.d] = byte(anchor.c);
+  } 
+  
+  middle_position = player.ship.posi;
+  middle_position.x++;
+  pixel middle_ship = posi_to_pixel(middle_position);
+  if (player.health[1] == false) {
+    grid[middle_ship.a + middle_ship.b*3][middle_ship.d] = byte(middle_ship.c);
+  }
+  
+  end_position = player.ship.posi;
+  end_position.x++;
+  pixel end_ship = posi_to_pixel(end_position);
+  if (player.health[1] == false) {
+    grid[end_ship.a + end_ship.b*3][end_ship.d] = byte(end_ship.c);
+  }
   
   for (int i = 0; i < 6; i ++)
   {
