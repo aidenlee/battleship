@@ -1,4 +1,4 @@
-position move_cursor_attack(player player, int start_time) {
+position move_cursor_attack(player player, double start_time) {
   int button_pressed; //variable to store voltage value when a key is pressed
   int c = 16;
   int d = 6;
@@ -49,25 +49,25 @@ position move_cursor_attack(player player, int start_time) {
   grid[a+(3*b)].ship[d] += byte(c);
   lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
 
-  Serial.print("Start Time:");
-  Serial.println(start_time);
-  int end_time = 0;
-  while (end_time < start_time + 5000) {
+  double end_time = 0;
+  while (end_time < start_time + 9000) {
     end_time = millis();
-    
-    Serial.println(end_time - start_time);
       
     lcd.setCursor(10, 1);
-    int time = 5- (end_time - start_time)/1000;
+    int time = 9 - (int)((end_time - start_time)/1000);
     lcd.print(time);
     
     
     button_pressed = analogRead(0); //Read analog input pin 0 (section 2.2, figure 2.3)
     
     if (button_pressed < 800) { //button is pressed
-      delay(200);    
-      grid[a+(3*b)].ship[d] -=  byte(c);
-      lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
+      delay(200);
+      if (   !(posi.x == player.ship.posi.x     && posi.y == player.ship.posi.y &&  player.ship.health[0] == false)
+          && !(posi.x == player.ship.posi.x + 1 && posi.y == player.ship.posi.y &&  player.ship.health[1] == false)
+          && !(posi.x == player.ship.posi.x + 2 && posi.y == player.ship.posi.y &&  player.ship.health[2] == false)  ) {    
+            grid[a+(3*b)].ship[d] -=  byte(c);
+            lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
+          }
     }
 
     if (button_pressed < 100) { //RIGHT
@@ -135,8 +135,14 @@ position move_cursor_attack(player player, int start_time) {
     }
     
     if (button_pressed < 800) {
-      grid[a+(3*b)].ship[d] += byte(c);
-      lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
+      
+      if (   !(posi.x == player.ship.posi.x     && posi.y == player.ship.posi.y &&  player.ship.health[0] == false)
+          && !(posi.x == player.ship.posi.x + 1 && posi.y == player.ship.posi.y &&  player.ship.health[1] == false)
+          && !(posi.x == player.ship.posi.x + 2 && posi.y == player.ship.posi.y &&  player.ship.health[2] == false)  ) {
+      
+        grid[a+(3*b)].ship[d] += byte(c);
+        lcd.createChar(a+(3*b), grid[a+(3*b)].ship);
+      }
     }
     //Print other stuff here....
  

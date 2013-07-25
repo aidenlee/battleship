@@ -15,7 +15,7 @@ void setup()
     lcd.print("< Place Ship");
     lcd.setCursor(3, 1);
     lcd.print("< Player 1");
-    player1 = initialize_player();
+    player1 = initialize_player("Aiden");
 
     Serial.println("Player 1 has been initialized"); //Serial checks
     Serial.print("Position of ship is: ");
@@ -30,7 +30,7 @@ void setup()
     lcd.print("< Place Ship");
     lcd.setCursor(3, 1);
     lcd.print("< Player 2");
-    player2 = initialize_player();
+    player2 = initialize_player("Stuart");
 
     Serial.println("Player 2 has been initialized"); //Serial checks
     Serial.print("Position of ship is: ");
@@ -45,19 +45,21 @@ void setup()
 
 void loop()
 {
+  delay(250);
   draw_my_ship(player1.ship.posi);
   lcd.setCursor(3, 0);
-  lcd.print("Player 1");
+  lcd.print(player1.name);
   lcd.setCursor(3, 1);
   lcd.print("Aim in");
-  attack(player2);
+  attack(player2, player1);
 
+  delay(250);
   draw_my_ship(player2.ship.posi);
   lcd.setCursor(3, 0);
-  lcd.print("Player 2");
+  lcd.print(player2.name);
   lcd.setCursor(3, 1);
   lcd.print("Aim in");
-  attack(player1);
+  attack(player1, player2);
 
 }
 
@@ -88,13 +90,14 @@ void draw_my_ship(position position) {
   lcd.setCursor(pixel.a, pixel.b);
   lcd.write(byte(6));
   lcd.write(byte(7));
-  delay(1000);
 
 }
 
-void attack (player &player) {
-  int time = millis();
+void attack (player &player, player &attacker) {
+  double time = millis();
+  Serial.print("Double Time: ");
   Serial.println(time);
+  
   position posi = move_cursor_attack(player, time);
 
   Serial.println("Player has fired at:"); //Serial checks
@@ -116,8 +119,12 @@ void attack (player &player) {
 
   shot[shot_pixel.d] = byte(shot_pixel.c);
   lcd.createChar(5, shot);
-  lcd.setCursor(6,0);
+  lcd.setCursor(0,0);
+  
+  lcd.print(attacker.name);
+  lcd.print(" has");
 
+  lcd.setCursor(0,1);
 
 
   for (int i = 0; i < 3; i++) {
@@ -131,7 +138,9 @@ void attack (player &player) {
 
       if (dead(player.ship)) {
         lcd.clear();
-        lcd.print("You win!");
+        lcd.setCursor (0,0);
+        lcd.print(attacker.name);
+        lcd.print(" wins!!");
         delay(2000);
         setup();
       }
@@ -146,7 +155,7 @@ void attack (player &player) {
       }
     }
   }
-  lcd.print("MISS");
+  lcd.print("MISSED");
 
 
   int button_pressed; //variable to store voltage value when a key is pressed
@@ -168,10 +177,11 @@ boolean dead (battleship ship) {
   return false;
 }
 
-player initialize_player() {
+player initialize_player(String name) {
   player current_player;
   position posi = move_cursor(0, current_player);
   current_player.ship.posi = posi;
+  current_player.name = name;
   current_player.ship.health[0] = true;
   current_player.ship.health[1] = true;
   current_player.ship.health[2] = true;

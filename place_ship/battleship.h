@@ -10,6 +10,7 @@ struct battleship {
 
 struct player {
   battleship ship;
+  String name;
 };
 
 struct custom_char {
